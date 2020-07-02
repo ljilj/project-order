@@ -1,0 +1,129 @@
+FED Kurs: Parcijalni test
+----------------------------------------------------------------------------------------------------------------------
+ZADATAK:
+	index.html: (Kod pisati u fajlu skripta.js: ./js/skripta.js)
+		--------------
+			Izvršiti validaciju forme upotrebom JavaScript tehnologije.	
+			Sva polja u formi moraju biti unesena kako bi se forma submitovala.
+			
+			Na formi se nalaze dva checkbox-a, prvi ima vrednost Hrana, drugi ima vrednost Piće.
+			Oni označavaju da li korisnik želi hranu, piće ili oboje. 
+
+			Ukoliko se štikliraju oba checkbox-a, znači da korisnik želi i hranu i piće, onda select Dezert treba aktivirati (inicijalno je disabled).
+			Ukoliko se jedan checkbox deselektuje (bilo koji), select Dezert treba opet deaktivirati (vratiti na disabled)
+			
+			Vrednost polja Dezert ima dve opcije: Cheesecake ili Tiramisu
+
+			Prilikom menjanja opcija select-a, paragraf select_dezert koji inicijalno ima vrednost:
+			"Odabrali ste : "
+			dopuniti sa podacima odabranog dezerta.
+
+			Tako da ako je odabran Cheesecake, u pomenutom paragrafu trebao bi da bude ispis:
+			"Odabrali ste : Cheesecake" i obojiti select_paragraf, kao i pozadinu submit dugmeta sa odgovarajućom vrednosti iz objekta boje. 
+
+			Ako je odabran Tiramisu, u istom paragrafu treba da pise:
+
+			"Odabrali ste : Tiramisu" i obojiti select_paragraf, kao i pozadinu submit dugmeta sa odgovarajućom vrednosti iz objekta boje. 
+
+			
+			Objekat koji sadrzi vrednosti boja definisan je na sledeci nacin:
+
+			var boje = {
+				tiramisu: "BlanchedAlmond",
+				cheesecake: "Azure"
+			};
+
+
+
+			Prilikom submita forme proveriti da li je bar jedan checkbox štikliran.
+			Forma se ne moze submitovati ukoliko bar jedan checkbox nije štikliran.
+
+			Napredno
+			---------------------
+			Onemogućiti submit forme ako se uneto Ime i Prezime ne poklapaju sa jednim od predfinisanih.
+			var osobe = [{ime: "Pera", prezime: "Peric"}, {ime: "Marko", prezime: "Markovic"}, 
+					{ime: "Jovo", prezime:"Jovic"}];
+
+	
+ts.html (Kod pisati u fajl proba.ts (./ts/proba.ts))
+		--------------
+			Osnovno
+			---------------------
+
+			NAPOMENA: U ts.html izbrisati sledeći script tag: <script src="js/kriptovano.js"></script>
+
+			Prilikom učitavanja stranice ts.html učitavaju se predefinisani gosti restorana (fajl ./js/gosti.js) i prvi gost se postavlja u objekat aktivni gost.
+
+			Stranica ts.html sastoji se od select polja koje za izbor aktivnog gosta, (select polje sadrži učitane goste). Ispod select polja za izbor aktivnog gosta nalaze se 4 polja za unos. U polja je predviđeno da se upiše naziv, količina, i cena obroka za gosta i da se izabere kategorija kojoj pripada određeno jelo ili piće (kategorija može biti: Glavno jelo, Dezert ili Pice), a klikom na dugme "Naruči", ta porudžbina se dodaje u niz porudžbina aktivnog gosta. Sve porudžbine aktivnog gosta se ispisuju pomoću div-a porudzbine.
+
+			Pored dugmeta "Naruči", se nalaze dva dugmeta: "Omiljena kategorija" i "Najnezastupljenija kategorija".
+			Klikom na dugme "Omiljena kategorija" u div-u sa id-om "kategorije" se ispisuje (za aktivnog gosta):
+			
+			<h3>Omiljena kategorija za gosta ${imeGosta} ${prezimeGosta} je: <br/>                            ${omiljenKategorijaGosta} sa ukupno ${ukupnaKolicinaSvihPorudzbina} narudžbi.</h3>
+
+			Omiljena kategorija gosta je kategorija iz koje je gost najviše (količinski) naručivao proizvode. Odnosno, kategorija čija suma količine naručenih obroka iz niza porudžbine je najveća.
+
+			Klikom na dugme "Najnezastupljenija kategorija" u div-u sa id-om "kategorije" se ispisuje (za aktivnog gosta):
+			
+			<h3>Gost ${imeGosta} ${prezimeGosta} je najmanje naručivao proizvode kategorije: <br/> ${najNezastupljenijaKategorija} sa ukupno porudžbina ${ukupanBrojPorudzbinaTeKategorija}.</h3>;
+			
+			Najnezastupljenija kategorija za gosta je kategorija koja se najmanje puta pojavljuje u nizu porudžbina gosta (nezavisno od količine). 
+
+			Implementirati Klasu Porudzbina, koja se sastoji od:
+				-atributa:
+					private _naziv: string;
+					private _kolicina: number;
+    				private _cena: number;
+    				private _kategorija: string;
+    			-konstruktora sa parametrima
+    			-geter-a i seter-a za sve atrbite
+
+    		Implementirati klasu Gost, koja se sastoji od:
+				-atributa:
+					private _jmbg: number;
+					private _ime: string;
+					private _prezime: string;
+			    	private _porudzbine: Porudzbina[]; //Niz porudzbina koje restoran prodaje
+				    -konstruktora (prima sve atribute osim niza porudzbina, niz porudzbina treba da bude inicijalno prazan niz)
+				    -geter-i za sva polja
+				    -seter-i za sva polja (osim _porudzbine)
+			    -metoda:
+			    	-naruci //prima objekat tipa Porudzbina i dodaje ga u niz porudzbina
+			    	-omiljenaKategorija //Služi za pronalaženje omiljene kategorije porudžbine i ispis odgovarajućeg teksta na html (tip void, preporuka za implementaciju: od niza porudzbina, napraviti podniz (uz pomoc filter funkcije) za svaku kategoriju (3 niza, po jedan za svaku varijantu) i onda vršiti provere)
+			    	-najnezastupljenijaKategorija //Služi za pronalazenje najnezastupljenije kategorije i ispis odgovarajućeg teksta na html (tip void, preporuka za implementaciju: od niza porudzbina, napraviti podniz (uz pomoc filter funkcije) za svaku kategoriju (3 razlicita niza) i onda vršiti provere)
+
+			Implementirati funkciju refreshIspis koja u div sa id-om "porudzbine" ispisuje ul listu koja sadrži svaku od porudžbina aktivnog gosta u svom li tagu, primer izgleda liste: 
+			
+			<div id="porudzbine">
+				<ul class="list-group">
+					<li class="list-group-item">Tiramisu (Dezert) x 2 <span class="badge">350</span></li>
+					<li class="list-group-item">Kolenica (Glavno jelo) x 1 <span class="badge">2300</span></li>
+					<li class="list-group-item">Sauvignon blanc (Pice) x 2 <span class="badge">1500</span></li>
+					<li class="list-group-item">Mouton Cadet (Pice) x 3 <span class="badge">1350</span></li>
+					<li class="list-group-item">Krempita (Dezert) x 5 <span class="badge">450</span></li>
+					<li class="list-group-item">Muckalica (Glavno jelo) x 1 <span class="badge">1850</span></li>
+				</ul>
+			</div>
+
+			Implementirati funkciju wireEvents koja povezuje klik događaje sa dugmićima:
+				-za naruci: kupe se informacije o porudžbini iz odgvarajućih input/select polja i pravi se novi objekat tipa Porudzbina, novi objekat se dodaje u aktivnog gosta, u okviru ovog callback-a pozvati funkciju refreshIspis
+				-za omiljenjaKategorija: poziva se metoda omiljenaKategorija aktivnog gosta
+				-za najnezastupljenijaKategorija: poziva se metoda najnezastupljenijaKategorija aktivnog gosta
+   
+
+			Napredno
+			------------------------------------
+			Prilikom ispisa omiljene ili najnezastupljenije kategorija, ukoliko gost nema porudžbine ispisati poruku: 
+			<h3>Gost ${imeGosta} ${prezimeGosta} jos uvek nema porucenih obroka!<h3>
+
+			Implementirati dodatnu metode u klasi Gost:
+			-getOmiljeniDezert(): String //Vraća dezert za koji je gost najviše puta kupio
+			Za dobijanje niza jedinstvenih vrednosti moguće je iskoristiti filter funkciju sa slajdova termina 7:
+
+			.filter((elem, i, array) => array.indexOf(elem) === i)
+
+			Izmeniti funkciju refreshIspis tako da ukoliko se ispisuje omiljeni dezert, svi odgovarajući <li> tagovi treba da imaju dodatnu klasu list-group-item-success odnosno:
+
+			<li class="list-group-item list-group-item-success">Krempita (Dezert) x 5 <span class="badge">2300</span></li>
+			<li class="list-group-item list-group-item-success">Krempita (Dezert) x 1 <span class="badge">460</span></li>
+			
